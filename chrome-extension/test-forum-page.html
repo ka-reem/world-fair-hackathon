@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Forum Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .forum-container {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .forum-post {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #673ab7;
+        }
+        .editor-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        #tinymce {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        #tinymce:focus {
+            border-color: #673ab7;
+            outline: none;
+        }
+        .submit-btn {
+            background: #673ab7;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .submit-btn:hover {
+            background: #5e35b1;
+        }
+        .instructions {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+        }
+        .thread-title {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .author {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>💬 Test Forum Page</h1>
+    
+    <div class="instructions">
+        <h3>Instructions for Testing Forum Auto Fill:</h3>
+        <ol>
+            <li>Load the Chrome extension with the updated files</li>
+            <li>On this page, click the extension icon</li>
+            <li>Click the "💬 Forum Auto Fill" button (purple button)</li>
+            <li>Open the browser console (F12) to see detailed logging</li>
+            <li>Watch as the extension automatically fills the text area below</li>
+        </ol>
+    </div>
+
+    <div class="forum-container">
+        <h2>🗨️ Philosophy Discussion Forum</h2>
+        
+        <div class="forum-post">
+            <h3 class="thread-title">Discussion: What is your take on the nature of evil?</h3>
+            <div class="author">Posted by: PhilosophyStudent123 | 2 hours ago</div>
+            <p>I've been thinking about this a lot lately. Is evil something inherent in people, or is it more about circumstances and choices? What do you all think makes someone truly "evil"?</p>
+        </div>
+
+        <div class="editor-container">
+            <h4>Reply to this thread:</h4>
+            <div>
+                <textarea 
+                    id="tinymce" 
+                    placeholder="Share your thoughts on the nature of evil..."
+                    contenteditable="true">
+                </textarea>
+            </div>
+            <button class="submit-btn" onclick="submitPost()">Post Reply</button>
+        </div>
+    </div>
+
+    <div id="result" style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 5px; display: none;">
+        <h3>✅ Post Submitted!</h3>
+        <p>Your forum post has been submitted successfully. Check the console for extension logs.</p>
+        <div id="submitted-content" style="margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 3px; font-style: italic;"></div>
+    </div>
+
+    <script>
+        function submitPost() {
+            console.log('📋 Forum post submission function called');
+            
+            const textArea = document.getElementById('tinymce');
+            const content = textArea.value || textArea.innerHTML;
+            
+            console.log('Forum post content:', content);
+            
+            // Show result
+            const resultDiv = document.getElementById('result');
+            const submittedContentDiv = document.getElementById('submitted-content');
+            
+            resultDiv.style.display = 'block';
+            submittedContentDiv.innerHTML = `<strong>Submitted content:</strong><br>${content.replace(/\n/g, '<br>')}`;
+            
+            // Scroll to result
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add some realistic forum content
+        window.addEventListener('load', function() {
+            console.log('🌐 Test forum page loaded successfully');
+            console.log('📍 Page ready for extension testing');
+            console.log('🎯 Target element ID: tinymce');
+        });
+
+        // Simulate TinyMCE-like behavior
+        const textArea = document.getElementById('tinymce');
+        textArea.addEventListener('focus', function() {
+            console.log('📝 Text area focused - ready for auto-fill');
+        });
+
+        textArea.addEventListener('input', function() {
+            console.log('✏️ Text area content changed');
+        });
+    </script>
+</body>
+</html>
