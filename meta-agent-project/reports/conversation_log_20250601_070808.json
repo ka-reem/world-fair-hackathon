@@ -1,0 +1,154 @@
+[
+  {
+    "timestamp": "2025-06-01T07:08:08.242592",
+    "timestamp_readable": "2025-06-01 07:08:08",
+    "query": "What is 15 * 23?",
+    "agent_used": "math_agent",
+    "was_new_agent": false,
+    "status": "success",
+    "retry_count": 0,
+    "task_type": "mathematics",
+    "response": "I'm math_agent, and I understand your request about the topic, but I'm having trouble generating a detailed response right now.",
+    "execution_time": 0.016896,
+    "workflow_path": [
+      "analyze_task",
+      "check_registry",
+      "delegate_task",
+      "evaluate_output",
+      "return_output"
+    ],
+    "decision_points": [
+      {
+        "decision": "agent_selection",
+        "outcome": "math_agent"
+      },
+      {
+        "decision": "agent_creation",
+        "outcome": false
+      },
+      {
+        "decision": "output_quality",
+        "outcome": "success"
+      }
+    ],
+    "metrics": {
+      "execution_time_ms": 16.896,
+      "retry_count": 0,
+      "agent_type": "existing"
+    }
+  },
+  {
+    "timestamp": "2025-06-01T07:08:08.253237",
+    "timestamp_readable": "2025-06-01 07:08:08",
+    "query": "I'm feeling stressed about work. Help me reflect on this.",
+    "agent_used": "journal_agent",
+    "was_new_agent": false,
+    "status": "success",
+    "retry_count": 0,
+    "task_type": "personal_development",
+    "response": "I'm journal_agent, and I understand your request about the topic, but I'm having trouble generating a detailed response right now.",
+    "execution_time": 0.010574,
+    "workflow_path": [
+      "analyze_task",
+      "check_registry",
+      "delegate_task",
+      "evaluate_output",
+      "return_output"
+    ],
+    "decision_points": [
+      {
+        "decision": "agent_selection",
+        "outcome": "journal_agent"
+      },
+      {
+        "decision": "agent_creation",
+        "outcome": false
+      },
+      {
+        "decision": "output_quality",
+        "outcome": "success"
+      }
+    ],
+    "metrics": {
+      "execution_time_ms": 10.574,
+      "retry_count": 0,
+      "agent_type": "existing"
+    }
+  },
+  {
+    "timestamp": "2025-06-01T07:08:08.272919",
+    "timestamp_readable": "2025-06-01 07:08:08",
+    "query": "Explain how photosynthesis works in simple terms",
+    "agent_used": "dynamic_general_agent_v1",
+    "was_new_agent": true,
+    "status": "success",
+    "retry_count": 0,
+    "task_type": "general",
+    "response": "I'm dynamic_general_agent_v1, and I understand your request about the topic, but I'm having trouble generating a detailed response right now.",
+    "execution_time": 0.019605,
+    "workflow_path": [
+      "analyze_task",
+      "check_registry",
+      "delegate_task",
+      "evaluate_output",
+      "return_output"
+    ],
+    "decision_points": [
+      {
+        "decision": "agent_selection",
+        "outcome": "dynamic_general_agent_v1"
+      },
+      {
+        "decision": "agent_creation",
+        "outcome": true
+      },
+      {
+        "decision": "output_quality",
+        "outcome": "success"
+      }
+    ],
+    "metrics": {
+      "execution_time_ms": 19.605,
+      "retry_count": 0,
+      "agent_type": "new"
+    }
+  },
+  {
+    "timestamp": "2025-06-01T07:08:08.283611",
+    "timestamp_readable": "2025-06-01 07:08:08",
+    "query": "Create a simple workout plan for beginners",
+    "agent_used": "dynamic_planning_agent_v1",
+    "was_new_agent": true,
+    "status": "success",
+    "retry_count": 0,
+    "task_type": "planning",
+    "response": "I'm dynamic_planning_agent_v1, and I understand your request about the topic, but I'm having trouble generating a detailed response right now.",
+    "execution_time": 0.010617,
+    "workflow_path": [
+      "analyze_task",
+      "check_registry",
+      "delegate_task",
+      "evaluate_output",
+      "return_output"
+    ],
+    "decision_points": [
+      {
+        "decision": "agent_selection",
+        "outcome": "dynamic_planning_agent_v1"
+      },
+      {
+        "decision": "agent_creation",
+        "outcome": true
+      },
+      {
+        "decision": "output_quality",
+        "outcome": "success"
+      }
+    ],
+    "metrics": {
+      "execution_time_ms": 10.616999999999999,
+      "retry_count": 0,
+      "agent_type": "new"
+    }
+  }
+]
