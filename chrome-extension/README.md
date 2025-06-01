@@ -13,6 +13,17 @@ A powerful Chrome extension with AI-powered features for content analysis, quiz 
   3. Clicks the submit button (submit_quiz_button)
   4. Logs each step in the browser console with detailed status messages
 
+### 💬 Forum Auto Fill
+- **Button**: "💬 Forum Auto Fill" (purple button)
+- **Functionality**: Automatically fills forum text areas with a predefined philosophical response
+- **Target**: Elements with XPath `//*[@id="tinymce"]` (TinyMCE editors)
+- **Content**: Fills with a thoughtful response about the nature of evil and moral intent
+- **Features**: 
+  - Handles multiple editor types (textarea, contentEditable, iframe)
+  - Tries alternative selectors if main target not found
+  - Triggers proper events for form validation
+  - Detailed console logging for debugging
+
 ## 📁 Project Structure (Refactored)
 
 The codebase has been split into modular files for better organization:
