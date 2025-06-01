@@ -204,6 +204,42 @@ document.getElementById('viewExtractedText').addEventListener('click', async () 
   }
 });
 
+// AI Service instance - will be initialized with API key
+let aiService = null;
+
+// Initialize AI service with API key
+async function initializeAI() {
+  try {
+    // In a real extension, you'd want to store the API key securely
+    // For now, prompt user for API key if not stored
+    const result = await chrome.storage.local.get(['llamaApiKey']);
+    
+    if (!result.llamaApiKey) {
+      const apiKey = prompt('Please enter your Llama API key:');
+      if (apiKey) {
+        await chrome.storage.local.set({ llamaApiKey: apiKey });
+        aiService = new AIService(apiKey);
+      } else {
+        throw new Error('API key required for AI features');
+      }
+    } else {
+      aiService = new AIService(result.llamaApiKey);
+    }
+  } catch (error) {
+    console.error('Failed to initialize AI service:', error);
+    showStatus('AI features require API key', 'error');
+  }
+}
+
+// Get extracted text from storage
+async function getExtractedText() {
+  const result = await chrome.storage.local.get(['quizData']);
+  if (!result.quizData) {
+    throw new Error('No extracted text found. Please click "Take My Quiz" first!');
+  }
+  return result.quizData.textContent;
+}
+
 // Show status message
 function showStatus(message, type) {
   const statusDiv = document.getElementById('status');
@@ -215,3 +251,155 @@ function showStatus(message, type) {
     statusDiv.className = '';
   }, 3000);
 }
+
+// Generate Quiz Questions using AI
+document.getElementById('generateQuiz').addEventListener('click', async () => {
+  try {
+    if (!aiService) await initializeAI();
+    if (!aiService) return;
+    
+    showStatus('Generating quiz questions...', 'success');
+    
+    const extractedText = await getExtractedText();
+    const quizQuestions = await aiService.generateQuiz(extractedText);
+    
+    // Display quiz in a new window
+    const quizWindow = window.open('', 'QuizQuestions', 'width=800,height=600,scrollbars=yes');
+    quizWindow.document.write(`
+      <html>
+        <head>
+          <title>AI Generated Quiz</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; }
+            .question { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+            .option { margin: 5px 0; padding: 5px; cursor: pointer; }
+            .option:hover { background-color: #f0f0f0; }
+          </style>
+        </head>
+        <body>
+          <h1>🧠 AI Generated Quiz Questions</h1>
+          <div id="quiz-content">
+            ${typeof quizQuestions === 'string' ? 
+              `<pre>${quizQuestions}</pre>` : 
+              JSON.stringify(quizQuestions, null, 2)}
+          </div>
+        </body>
+      </html>
+    `);
+    quizWindow.document.close();
+    
+    showStatus('Quiz questions generated!', 'success');
+  } catch (error) {
+    console.error('Error generating quiz:', error);
+    showStatus(error.message, 'error');
+  }
+});
+
+// Summarize Content using AI
+document.getElementById('summarizeText').addEventListener('click', async () => {
+  try {
+    if (!aiService) await initializeAI();
+    if (!aiService) return;
+    
+    showStatus('Generating summary...', 'success');
+    
+    const extractedText = await getExtractedText();
+    const summary = await aiService.summarize(extractedText);
+    
+    // Display summary in alert for now (could be improved with a nice popup)
+    alert(`📝 Content Summary:\n\n${summary}`);
+    
+    showStatus('Summary generated!', 'success');
+  } catch (error) {
+    console.error('Error generating summary:', error);
+    showStatus(error.message, 'error');
+  }
+});
+
+// Extract Key Points using AI
+document.getElementById('extractKeyPoints').addEventListener('click', async () => {
+  try {
+    if (!aiService) await initializeAI();
+    if (!aiService) return;
+    
+    showStatus('Extracting key points...', 'success');
+    
+    const extractedText = await getExtractedText();
+    const keyPoints = await aiService.extractKeyPoints(extractedText);
+    
+    // Display key points in a new window
+    const keyPointsWindow = window.open('', 'KeyPoints', 'width=600,height=500,scrollbars=yes');
+    keyPointsWindow.document.write(`
+      <html>
+        <head>
+          <title>Key Points</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+            h1 { color: #333; }
+          </style>
+        </head>
+        <body>
+          <h1>🔑 Key Points</h1>
+          <div style="white-space: pre-wrap;">${keyPoints}</div>
+        </body>
+      </html>
+    `);
+    keyPointsWindow.document.close();
+    
+    showStatus('Key points extracted!', 'success');
+  } catch (error) {
+    console.error('Error extracting key points:', error);
+    showStatus(error.message, 'error');
+  }
+});
+
+// Open Chatbot using AI
+document.getElementById('openChatbot').addEventListener('click', async () => {
+  try {
+    if (!aiService) await initializeAI();
+    if (!aiService) return;
+    
+    const extractedText = await getExtractedText();
+    
+    // Open chatbot in a new window
+    const chatWindow = window.open('', 'Chatbot', 'width=700,height=600,scrollbars=yes');
+    chatWindow.document.write(`
+      <html>
+        <head>
+          <title>Content Chatbot</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; margin: 0; }
+            #chat-container { height: 500px; border: 1px solid #ddd; overflow-y: auto; padding: 10px; margin-bottom: 10px; }
+            #chat-input { width: 70%; padding: 10px; }
+            #send-btn { width: 25%; padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+            .message { margin: 10px 0; padding: 10px; border-radius: 5px; }
+            .user { background: #e3f2fd; text-align: right; }
+            .ai { background: #f0f0f0; }
+          </style>
+        </head>
+        <body>
+          <h1>💬 Chat About This Content</h1>
+          <div id="chat-container">
+            <div class="message ai">Hi! I can answer questions about the content from the webpage. What would you like to know?</div>
+          </div>
+          <input type="text" id="chat-input" placeholder="Ask a question about the content..." />
+          <button id="send-btn">Send</button>
+          
+          <script>
+            const extractedText = \`${extractedText.replace(/`/g, '\\`')}\`;
+            // This would need to be implemented with proper message passing to the extension
+            document.getElementById('send-btn').addEventListener('click', () => {
+              alert('Chatbot functionality would be implemented here with proper message passing to the extension');
+            });
+          </script>
+        </body>
+      </html>
+    `);
+    chatWindow.document.close();
+    
+    showStatus('Chatbot opened!', 'success');
+  } catch (error) {
+    console.error('Error opening chatbot:', error);
+    showStatus(error.message, 'error');
+  }
+});
