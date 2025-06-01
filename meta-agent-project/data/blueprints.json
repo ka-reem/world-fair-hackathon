@@ -1,0 +1,32 @@
+{
+    "fun_fact_agent": {
+        "type": "fun_fact",
+        "name": "Fun Fact Agent",
+        "capabilities": ["true_false_questions", "historical_facts", "general_knowledge", "trivia", "fact_verification"],
+        "config": {
+            "memory_type": "conversation_buffer",
+            "tools": ["fact_checker", "knowledge_base"]
+        },
+        "description": "Agent specialized in answering true/false questions and sharing interesting facts about history, science, geography, and general knowledge"
+    },
+    "math_agent": {
+        "type": "math",
+        "name": "Math Agent",
+        "capabilities": ["calculation", "equation_solving", "statistical_analysis"],
+        "config": {
+            "memory_type": "none",
+            "tools": ["calculator", "equation_solver"]
+        },
+        "description": "Agent for mathematical calculations and analysis"
+    },
+    "research_agent": {
+        "type": "research",
+        "name": "Research Paper Agent",
+        "capabilities": ["paper_analysis", "citation_extraction", "summary_generation"],
+        "config": {
+            "memory_type": "vector_store",
+            "tools": ["pdf_parser", "citation_extractor"]
+        },
+        "description": "Agent for analyzing research papers and extracting information"
+    }
+}

@@ -11,7 +11,7 @@ class FunFactAgent(BaseAgent):
     def _setup_agent(self) -> None:
         """Setup LangChain agent with tools and memory"""
         prompt = PromptTemplate.from_template(
-            """You are a Fun Fact Agent that specializes in answering true/false questions and sharing interesting facts about history, science, geography, culture, and other general knowledge topics.
+            """You are a Fun Fact Agent that specializes in answering true/false questions, yes/no questions, and sharing interesting facts about history, science, geography, culture, and other general knowledge topics.
             
             Your expertise includes:
             - Historical events and figures
@@ -22,6 +22,7 @@ class FunFactAgent(BaseAgent):
             - Space and astronomy
             - Art and literature
             - Sports and achievements
+            - General trivia and knowledge
             
             When answering true/false questions:
             1. Clearly state "TRUE" or "FALSE" at the beginning
@@ -29,13 +30,19 @@ class FunFactAgent(BaseAgent):
             3. Include an interesting related fun fact when possible
             4. If uncertain, acknowledge it and provide context
             
-            For general questions, provide fascinating and accurate information with engaging details.
+            When answering yes/no questions:
+            1. Clearly state "YES" or "NO" at the beginning
+            2. Provide a clear, factual explanation
+            3. Include interesting details or related facts
+            4. If the answer depends on context, explain the nuances
+            
+            For general knowledge questions, provide fascinating and accurate information with engaging details.
             
             Current conversation:
             {chat_history}
             
             Human: {input}
-            Assistant: Let me help you with that fun fact or true/false question!"""
+            Assistant: Let me help you with that question!"""
         )
         
         # Create agent with tools and memory
@@ -62,20 +69,39 @@ class FunFactAgent(BaseAgent):
                 chat_history=input_data.get("history", [])
             )
             
-            # Determine if this was a true/false question
-            is_true_false = any(keyword in user_input.lower() for keyword in 
+            # Determine question type with improved detection
+            user_input_lower = user_input.lower()
+            
+            # Check for true/false questions
+            is_true_false = any(keyword in user_input_lower for keyword in 
                               ["true or false", "t/f", "true false", "is it true", "fact or fiction"])
             
+            # Check for yes/no questions
+            is_yes_no = any(keyword in user_input_lower for keyword in 
+                          ["yes or no", "is it correct", "is that right", "is there", "does it", "will it", 
+                           "has it", "was it", "were they", "are they", "can you", "do you know if"])
+            
+            # Determine question type
+            if is_true_false:
+                question_type = "true_false"
+                response_type = "true_false_question"
+            elif is_yes_no:
+                question_type = "yes_no"
+                response_type = "yes_no_question"
+            else:
+                question_type = "general_knowledge"
+                response_type = "fun_fact"
+
             return {
                 "status": "success",
-                "type": "fun_fact" if not is_true_false else "true_false_question",
+                "type": response_type,
                 "data": {
                     "response": result,
-                    "question_type": "true_false" if is_true_false else "general_fact",
+                    "question_type": question_type,
                     "metadata": {
                         "agent": self.name,
                         "capabilities_used": self.capabilities,
-                        "specialties": ["history", "science", "geography", "culture", "nature", "astronomy"]
+                        "specialties": ["history", "science", "geography", "culture", "nature", "astronomy", "general_knowledge"]
                     }
                 }
             }
