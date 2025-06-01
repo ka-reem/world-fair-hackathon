@@ -1,74 +1,152 @@
-# Simple Chrome Extension
+# Chrome Extension - Modular Quiz & Content Tools
 
-A basic Chrome extension that demonstrates popup functionality and content script injection.
+A powerful Chrome extension with AI-powered features for content analysis, quiz generation, and automated quiz answering.
 
-## Features
+## 🆕 New Features
 
-- **Change Page Background**: Randomly changes the background color of the current page
-- **Highlight Links**: Highlights all links on the page with yellow background and red border
-- **Show Page Info**: Displays information about the current page (title, number of links, images, paragraphs)
-- **Reset Page**: Resets all modifications back to original state
-- **Active Indicator**: Shows a small indicator when the extension loads on a page
+### 🤖 Auto Answer Quiz
+- **Button**: "🤖 Auto Answer Quiz" (orange button)
+- **Functionality**: Automatically fills out specific quiz forms with predefined answers
+- **Process**:
+  1. Selects answer for question_229685402_answer_3544_label
+  2. Selects answer for question_229685443_answer_1389  
+  3. Clicks the submit button (submit_quiz_button)
+  4. Logs each step in the browser console with detailed status messages
 
-## File Structure
+## 📁 Project Structure (Refactored)
 
+The codebase has been split into modular files for better organization:
+
+### Core Files
+- **`popup.html`** - Main UI layout with all buttons
+- **`popup.js`** - Main entry point and coordinator
+- **`manifest.json`** - Extension configuration
+
+### Modular JavaScript Files
+- **`utils.js`** - Shared utilities and status functions
+- **`text-extraction.js`** - Text extraction and viewing functionality
+- **`page-manipulation.js`** - Page styling and manipulation tools
+- **`ai-features.js`** - AI-powered content analysis features
+- **`quiz-automation.js`** - NEW: Automated quiz answering functionality
+- **`ai-service.js`** - AI service integration (Llama API)
+- **`content.js`** - Content script for page interactions
+
+## 🎯 Features Overview
+
+### Text & Content Tools
+- **Take My Quiz**: Extract all text content from current webpage
+- **View Extracted Text**: Display previously extracted content in formatted window
+
+### AI-Powered Features (Requires API Key)
+- **🧠 Generate Quiz Questions**: Create interactive quizzes from page content
+- **📝 Summarize Content**: Generate concise summaries of extracted text
+- **🔑 Extract Key Points**: Identify and list main points from content
+- **💬 Chat About Content**: Open chatbot for content-related questions
+- **⚙️ Manage API Key**: Securely store and manage Llama API credentials
+
+### Page Manipulation Tools
+- **Change Page Background**: Apply random background colors
+- **Highlight All Links**: Visually highlight all links on the page
+- **Show Page Info**: Display page statistics (title, links, images, paragraphs)
+- **Reset Page**: Restore page to original state
+
+### Quiz Automation (NEW)
+- **🤖 Auto Answer Quiz**: Automatically answer specific quiz questions and submit
+
+## 🔧 Installation
+
+1. Download or clone this extension folder
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable "Developer mode" in the top right
+4. Click "Load unpacked" and select the extension folder
+5. The extension icon will appear in your browser toolbar
+
+## 🚀 Usage
+
+### Basic Features
+1. Click the extension icon to open the popup
+2. Use any button to interact with the current webpage
+3. Status messages will appear at the bottom of the popup
+
+### AI Features Setup
+1. Click "⚙️ Manage API Key" 
+2. Enter your Llama API key when prompted
+3. The key will be stored securely in Chrome storage
+4. Now you can use all AI-powered features
+
+### Auto Quiz Feature
+1. Navigate to a quiz page with the target questions
+2. Click "🤖 Auto Answer Quiz"
+3. Check the browser console (F12) for detailed logs
+4. The extension will automatically:
+   - Select the first answer option
+   - Select the second answer option  
+   - Submit the quiz
+   - Log each action with status messages
+
+## 📝 Console Logging
+
+The Auto Answer Quiz feature provides detailed console logging:
+- 🤖 Process start notification
+- 📝 Step-by-step action descriptions  
+- ✅ Success confirmations for each action
+- ❌ Error messages if elements aren't found
+- 🎉 Completion notification
+
+Example console output:
 ```
-chrome-extension/
-├── manifest.json       # Extension configuration
-├── popup.html         # Extension popup interface
-├── popup.js          # Popup functionality
-├── content.js        # Content script that runs on web pages
-├── icons/            # Extension icons
-│   ├── icon16.png
-│   ├── icon32.png
-│   ├── icon48.png
-│   └── icon128.png
-└── README.md         # This file
+🤖 Quiz Auto-Answer Started
+📝 Step 1: Selecting first question answer...
+✅ First answer selected successfully
+📝 Step 2: Selecting second question answer...
+✅ Second answer selected successfully  
+📝 Step 3: Submitting quiz...
+✅ Quiz submitted successfully!
+🎉 Auto-answer process completed
 ```
 
-## How to Install and Test
+## 🔒 Privacy & Security
 
-### 1. Enable Developer Mode
-1. Open Chrome browser
-2. Go to `chrome://extensions/`
-3. Toggle "Developer mode" in the top-right corner
+- API keys are stored securely in Chrome's local storage
+- No data is sent to external servers except for AI features (when explicitly used)
+- All page interactions are performed locally
+- Text extraction only processes content from the active tab
 
-### 2. Load the Extension
-1. Click "Load unpacked" button
-2. Navigate to and select the `chrome-extension` folder
-3. The extension should now appear in your extensions list
+## 🛠️ Development
 
-### 3. Test the Extension
-1. Navigate to any website (e.g., https://google.com)
-2. Click the extension icon in the Chrome toolbar (puzzle piece icon, then find "Simple Extension")
-3. Try the different buttons in the popup:
-   - **Change Page Background**: Changes the page background color
-   - **Highlight Links**: Makes all links stand out
-   - **Show Page Info**: Shows page statistics
-   - **Reset Page**: Undoes all changes
+### File Structure Benefits
+- **Modularity**: Each feature is in its own file
+- **Maintainability**: Easy to find and modify specific functionality
+- **Scalability**: Simple to add new features without cluttering
+- **Debugging**: Easier to isolate and fix issues
 
-### 4. Check Content Script
-- When you visit any webpage, you should briefly see a "🚀 Extension Active" indicator in the top-right corner
-- This demonstrates that the content script is working
+### Adding New Features
+1. Create a new JavaScript file for your feature
+2. Add the file to `popup.html` script loading section
+3. Add corresponding buttons to the HTML
+4. Follow the existing class-based pattern for organization
 
-## Development Tips
+## 🆕 Recent Updates
 
-- **Reload Extension**: After making changes, go to `chrome://extensions/` and click the reload icon for your extension
-- **Debug Popup**: Right-click the extension icon and select "Inspect popup" to open DevTools
-- **Debug Content Script**: Use the regular page DevTools to debug content script issues
-- **View Console**: Check the browser console for any error messages
+- ✅ Split monolithic popup.js into 6 modular files
+- ✅ Added automated quiz answering functionality
+- ✅ Enhanced console logging for better debugging
+- ✅ Improved code organization and maintainability
+- ✅ Added comprehensive documentation
 
-## Permissions Explained
+## 🐛 Troubleshooting
 
-- `activeTab`: Allows the extension to access the current active tab
-- `storage`: Allows the extension to store data (not currently used but included for future features)
-- `scripting`: Allows the extension to inject scripts into web pages
+**Auto Answer Quiz not working?**
+- Check browser console for error messages
+- Ensure you're on the correct quiz page
+- Verify the quiz elements exist with the expected IDs
 
-## Next Steps
+**AI features not working?**
+- Verify your API key is correctly entered
+- Check your internet connection
+- Ensure the Llama API service is accessible
 
-You can extend this extension by:
-- Adding more interactive features
-- Storing user preferences
-- Adding background scripts
-- Creating options pages
-- Adding keyboard shortcuts
+**Extension not loading?**
+- Check for JavaScript errors in browser console
+- Verify all files are present in the extension folder
+- Try reloading the extension in chrome://extensions/

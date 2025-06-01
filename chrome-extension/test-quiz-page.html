@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Quiz Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .quiz-container {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+        }
+        .question h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .answer-option {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .answer-option:hover {
+            background: #e8f5e8;
+        }
+        .answer-option input[type="radio"] {
+            margin-right: 10px;
+        }
+        #submit_quiz_button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #submit_quiz_button:hover {
+            background: #45a049;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧠 Test Quiz Page</h1>
+    
+    <div class="instructions">
+        <h3>Instructions for Testing the Chrome Extension:</h3>
+        <ol>
+            <li>Load the Chrome extension using the updated files</li>
+            <li>Navigate to this test page</li>
+            <li>Click the extension icon and select "🤖 Auto Answer Quiz"</li>
+            <li>Open the browser console (F12) to see detailed logging</li>
+            <li>Watch as the extension automatically selects answers and submits the quiz</li>
+        </ol>
+    </div>
+
+    <div class="quiz-container">
+        <h2>Sample Quiz</h2>
+        
+        <div class="question">
+            <h3>Question 1: What is the capital of France?</h3>
+            <div class="answer-option">
+                <input type="radio" name="question_229685402" id="question_229685402_answer_3541" value="3541">
+                <label for="question_229685402_answer_3541">London</label>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="question_229685402" id="question_229685402_answer_3542" value="3542">
+                <label for="question_229685402_answer_3542">Berlin</label>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="question_229685402" id="question_229685402_answer_3543" value="3543">
+                <label for="question_229685402_answer_3543">Madrid</label>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="question_229685402" id="question_229685402_answer_3544" value="3544">
+                <label for="question_229685402_answer_3544" id="question_229685402_answer_3544_label">Paris</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>Question 2: Which planet is known as the Red Planet?</h3>
+            <div class="answer-option">
+                <input type="radio" name="question_229685443" id="question_229685443_answer_1387" value="1387">
+                <label for="question_229685443_answer_1387">Venus</label>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="question_229685443" id="question_229685443_answer_1388" value="1388">
+                <label for="question_229685443_answer_1388">Jupiter</label>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="question_229685443" id="question_229685443_answer_1389" value="1389">
+                <label for="question_229685443_answer_1389">Mars</label>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="question_229685443" id="question_229685443_answer_1390" value="1390">
+                <label for="question_229685443_answer_1390">Saturn</label>
+            </div>
+        </div>
+
+        <button id="submit_quiz_button" onclick="submitQuiz()">Submit Quiz</button>
+    </div>
+
+    <div id="result" style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px; display: none;">
+        <h3>Quiz Submitted!</h3>
+        <p>The quiz has been submitted successfully. Check the console for extension logs.</p>
+    </div>
+
+    <script>
+        function submitQuiz() {
+            console.log('📋 Quiz submission function called');
+            
+            // Get selected answers
+            const question1 = document.querySelector('input[name="question_229685402"]:checked');
+            const question2 = document.querySelector('input[name="question_229685443"]:checked');
+            
+            console.log('Question 1 answer:', question1 ? question1.value : 'No answer selected');
+            console.log('Question 2 answer:', question2 ? question2.value : 'No answer selected');
+            
+            // Show result
+            document.getElementById('result').style.display = 'block';
+            
+            // Scroll to result
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add some content to make the page more realistic for text extraction
+        window.addEventListener('load', function() {
+            console.log('🌐 Test quiz page loaded successfully');
+            console.log('📍 Page ready for extension testing');
+        });
+    </script>
+</body>
+</html>

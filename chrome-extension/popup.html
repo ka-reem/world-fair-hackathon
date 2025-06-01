@@ -66,6 +66,9 @@
   <button id="takeQuiz" class="button">Take My Quiz</button>
   <button id="viewExtractedText" class="button">View Extracted Text</button>
   
+  <!-- New Quiz Automation Button -->
+  <button id="autoAnswerQuiz" class="button" style="background-color: #ff5722;">🤖 Auto Answer Quiz</button>
+  
   <!-- AI-powered features -->
   <button id="generateQuiz" class="button">🧠 Generate Quiz Questions</button>
   <button id="summarizeText" class="button">📝 Summarize Content</button>
@@ -88,7 +91,13 @@
   
   <div id="status"></div>
   
+  <!-- Load all modular JavaScript files -->
   <script src="ai-service.js"></script>
+  <script src="utils.js"></script>
+  <script src="text-extraction.js"></script>
+  <script src="page-manipulation.js"></script>
+  <script src="ai-features.js"></script>
+  <script src="quiz-automation.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
